@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a0e27;
+            color: #64ffda;
+            padding: 40px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button.active {
+            background: #64ffda;
+            color: #0a0e27;
+        }
+        
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #64ffda;
+        }
+    </style>
+</head>
+<body>
+    <h1>React Button Test</h1>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+        
+        function App() {
+            const [visible, setVisible] = useState([]);
+            
+            const toggle = (section) => {
+                console.log('Button clicked:', section);
+                console.log('Current visible:', visible);
+                
+                if (visible.includes(section)) {
+                    setVisible(visible.filter(s => s !== section));
+                } else {
+                    setVisible([...visible, section]);
+                }
+            };
+            
+            return (
+                <div>
+                    <h2>Click buttons to toggle sections:</h2>
+                    
+                    <button 
+                        onClick={() => toggle('section1')}
+                        className={visible.includes('section1') ? 'active' : ''}
+                    >
+                        Toggle Section 1
+                    </button>
+                    
+                    <button 
+                        onClick={() => toggle('section2')}
+                        className={visible.includes('section2') ? 'active' : ''}
+                    >
+                        Toggle Section 2
+                    </button>
+                    
+                    <button 
+                        onClick={() => toggle('section3')}
+                        className={visible.includes('section3') ? 'active' : ''}
+                    >
+                        Toggle Section 3
+                    </button>
+                    
+                    <div>
+                        <p>Visible sections: {visible.join(', ') || 'none'}</p>
+                    </div>
+                    
+                    {visible.includes('section1') && (
+                        <div className="section">
+                            <h3>Section 1</h3>
+                            <p>This is section 1 content</p>
+                            <button onClick={() => toggle('section1')}>Close</button>
+                        </div>
+                    )}
+                    
+                    {visible.includes('section2') && (
+                        <div className="section">
+                            <h3>Section 2</h3>
+                            <p>This is section 2 content</p>
+                            <button onClick={() => toggle('section2')}>Close</button>
+                        </div>
+                    )}
+                    
+                    {visible.includes('section3') && (
+                        <div className="section">
+                            <h3>Section 3</h3>
+                            <p>This is section 3 content</p>
+                            <button onClick={() => toggle('section3')}>Close</button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

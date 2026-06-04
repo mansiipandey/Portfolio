@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Input</title>
+    <style>
+        body {
+            background: #0a0e27;
+            color: #64ffda;
+            font-family: monospace;
+            padding: 50px;
+        }
+        input {
+            background: transparent;
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Input Field</h1>
+    <input type="text" placeholder="Can you type here?" id="testInput">
+    <p id="output"></p>
+    
+    <script>
+        document.getElementById('testInput').addEventListener('input', function(e) {
+            document.getElementById('output').textContent = 'You typed: ' + e.target.value;
+        });
+    </script>
+</body>
+</html>
