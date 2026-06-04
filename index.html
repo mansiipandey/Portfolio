@@ -1759,35 +1759,43 @@
     chatSend.addEventListener('click', sendMsg);
     chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
 
-    /* VISITOR COUNTER */
+    /* VISITOR COUNTER - Global tracking using API */
     (function() {
-      const VISITOR_KEY = 'portfolio_visitor_count';
-      let count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
-      
-      // Increment on each page load
-      count++;
-      localStorage.setItem(VISITOR_KEY, count.toString());
-      
-      // Display with animation
       const counterEl = document.getElementById('visitor-count');
-      if (counterEl) {
-        let current = 0;
-        const target = count;
-        const duration = 1000;
-        const increment = Math.ceil(target / (duration / 16));
-        
-        const animate = () => {
-          current += increment;
-          if (current >= target) {
-            counterEl.textContent = target.toLocaleString();
-          } else {
-            counterEl.textContent = current.toLocaleString();
-            requestAnimationFrame(animate);
-          }
-        };
-        
-        animate();
-      }
+      if (!counterEl) return;
+      
+      // Use CountAPI - free visitor counter service
+      const namespace = 'mansi-portfolio';
+      const key = 'visitors';
+      const apiUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+      
+      // Fetch and update count
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const count = data.value || 0;
+          
+          // Animate counter
+          let current = 0;
+          const duration = 1000;
+          const increment = Math.ceil(count / (duration / 16));
+          
+          const animate = () => {
+            current += increment;
+            if (current >= count) {
+              counterEl.textContent = count.toLocaleString();
+            } else {
+              counterEl.textContent = current.toLocaleString();
+              requestAnimationFrame(animate);
+            }
+          };
+          
+          animate();
+        })
+        .catch(error => {
+          console.error('Visitor counter error:', error);
+          counterEl.textContent = '---';
+        });
     })();
   </script>
 </body>
