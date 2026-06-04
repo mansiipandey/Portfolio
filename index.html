@@ -1612,7 +1612,9 @@
     <footer>
       <div class="container">
         <p class="foot-txt">Mansi Pandey <span>&middot;</span> AI Developer <span>&middot;</span> Built with care, coffee, and clean code.</p>
-        <p class="foot-visitors"> Visitors: <span class="visitor-count" id="visitor-count">Loading...</span></p>
+        <p class="foot-visitors">
+          <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fmansiipandey.github.io%2FPortfolio&count_bg=%23B87830&title_bg=%23420B1C&icon=&icon_color=%23E7E7E7&title=Visitors&edge_flat=false" alt="Visitor Counter" style="display: inline-block; margin: 0 auto;" />
+        </p>
       </div>
     </footer>
 
@@ -1758,47 +1760,6 @@
 
     chatSend.addEventListener('click', sendMsg);
     chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
-
-    /* VISITOR COUNTER - Global tracking using API */
-    (function() {
-      const counterEl = document.getElementById('visitor-count');
-      if (!counterEl) return;
-      
-      // Use GoatCounter API alternative - Simple counter with hits.dwyl.com
-      const apiUrl = 'https://hits.dwyl.com/mansiipandey/Portfolio.svg?show=unique';
-      
-      // Fallback to a simple fetch counter
-      fetch('https://api.counterapi.dev/v1/mansiipandey/portfolio-visitors/up')
-        .then(response => response.json())
-        .then(data => {
-          const count = data.count || 0;
-          
-          // Animate counter
-          let current = 0;
-          const duration = 1000;
-          const increment = Math.max(1, Math.ceil(count / (duration / 16)));
-          
-          const animate = () => {
-            current += increment;
-            if (current >= count) {
-              counterEl.textContent = count.toLocaleString();
-            } else {
-              counterEl.textContent = current.toLocaleString();
-              requestAnimationFrame(animate);
-            }
-          };
-          
-          animate();
-        })
-        .catch(error => {
-          console.error('Visitor counter error:', error);
-          // Fallback to local storage if API fails
-          let count = parseInt(localStorage.getItem('visitor_fallback') || '0');
-          count++;
-          localStorage.setItem('visitor_fallback', count.toString());
-          counterEl.textContent = count.toLocaleString() + '+';
-        });
-    })();
   </script>
 </body>
 </html>
