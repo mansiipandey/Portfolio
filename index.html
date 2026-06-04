@@ -1764,21 +1764,19 @@
       const counterEl = document.getElementById('visitor-count');
       if (!counterEl) return;
       
-      // Use CountAPI - free visitor counter service
-      const namespace = 'mansi-portfolio';
-      const key = 'visitors';
-      const apiUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+      // Use GoatCounter API alternative - Simple counter with hits.dwyl.com
+      const apiUrl = 'https://hits.dwyl.com/mansiipandey/Portfolio.svg?show=unique';
       
-      // Fetch and update count
-      fetch(apiUrl)
+      // Fallback to a simple fetch counter
+      fetch('https://api.counterapi.dev/v1/mansiipandey/portfolio-visitors/up')
         .then(response => response.json())
         .then(data => {
-          const count = data.value || 0;
+          const count = data.count || 0;
           
           // Animate counter
           let current = 0;
           const duration = 1000;
-          const increment = Math.ceil(count / (duration / 16));
+          const increment = Math.max(1, Math.ceil(count / (duration / 16)));
           
           const animate = () => {
             current += increment;
@@ -1794,7 +1792,11 @@
         })
         .catch(error => {
           console.error('Visitor counter error:', error);
-          counterEl.textContent = '---';
+          // Fallback to local storage if API fails
+          let count = parseInt(localStorage.getItem('visitor_fallback') || '0');
+          count++;
+          localStorage.setItem('visitor_fallback', count.toString());
+          counterEl.textContent = count.toLocaleString() + '+';
         });
     })();
   </script>
